@@ -5,6 +5,7 @@ import App from './App';
 
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import StoreProvider from './store';
 
 const theme = createTheme({
     palette: {
@@ -21,7 +22,9 @@ ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <ThemeProvider theme={theme}>
-                <App />
+                <StoreProvider>
+                    <App />
+                </StoreProvider>
             </ThemeProvider>
         </BrowserRouter>
     </React.StrictMode>,

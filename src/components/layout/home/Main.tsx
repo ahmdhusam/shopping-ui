@@ -1,8 +1,22 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Box } from '@mui/material';
 import Card from '../card';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts, Product } from '../../../store/products';
+import LoadingSkeleton from '../card/Skeleton';
+
+function dummyArr() {
+    return Array.from(new Array(6));
+}
 
 export default function Main() {
+    const products: Product[] = useSelector((state: any) => state.products.products);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProducts());
+    }, [dispatch]);
+
     return (
         <Box
             sx={{
@@ -11,15 +25,9 @@ export default function Main() {
                 gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
                 gap: '5rem'
             }}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {!!products.length
+                ? products.map((product: Product) => <Card key={product.id} {...product} />)
+                : dummyArr().map((_, index) => <LoadingSkeleton key={index} />)}
         </Box>
     );
 }
