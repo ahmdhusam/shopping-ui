@@ -16,6 +16,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import logo from '/public/imgs/logo.svg';
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../../../store/cart';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -58,6 +61,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavBar() {
+    const dispatch = useDispatch();
+    const { openCart } = cartActions;
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -144,7 +150,13 @@ export default function NavBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position='static'>
                 <Toolbar>
-                    <IconButton size='large' edge='start' color='inherit' aria-label='open drawer' sx={{ mr: 2 }}>
+                    <IconButton
+                        size='large'
+                        edge='start'
+                        color='inherit'
+                        aria-label='open drawer'
+                        sx={{ mr: 2 }}
+                        onClick={dispatch.bind(null, openCart())}>
                         <MenuIcon />
                     </IconButton>
                     <img src={logo} width={100} height='100%' alt='logo' />
@@ -156,11 +168,13 @@ export default function NavBar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
-                            <Badge badgeContent={17} color='error'>
-                                <AddShoppingCartIcon />
-                            </Badge>
-                        </IconButton>
+                        <Link to='/cart'>
+                            <IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
+                                <Badge badgeContent={17} color='error'>
+                                    <AddShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+                        </Link>
                         <IconButton
                             size='large'
                             edge='end'

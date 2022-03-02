@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import STORE_API from '../lib/axios';
 
+import { notificationActions, ActionPayload } from './notification';
+
 interface Rating {
     count: number;
     rate: number;
 }
+
 export interface Product {
     id: number;
     title: string;
@@ -15,34 +18,44 @@ export interface Product {
     image: string;
 }
 
-interface InitProducts {
+export interface Products {
     products: Product[];
 }
 
-const initialState: InitProducts = {
+const initialState: Products = {
     products: []
 };
 
-export const productsSlice = createSlice({
+const slice = {
     name: 'products',
     initialState,
     reducers: {
-        setProducts(state, actions) {
+        setProducts(state: Products, actions: { payload: Product[] }) {
             state.products = actions.payload;
         }
     }
-});
+};
 
-const productsActions = productsSlice.actions;
+const productsSlice = createSlice(slice);
+export default productsSlice;
 
-export const getProducts = () => {
+const getProducts = () => {
     return async (dispatch: any) => {
         try {
             const res = await STORE_API.get('/products');
             const products = res.data;
             dispatch(productsActions.setProducts(products));
         } catch (err: any) {
-            if ('message' in err) console.log(err.message);
+            if ('message' in err) {
+                const payload: ActionPayload = {
+                    type: 'error',
+                    message: err.message
+                };
+
+                dispatch(notificationActions.open(payload));
+            }
         }
     };
 };
+
+export const productsActions = { ...productsSlice.actions, getProducts };

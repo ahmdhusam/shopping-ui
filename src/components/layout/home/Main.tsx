@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { Box } from '@mui/material';
 import Card from '../card';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts, Product } from '../../../store/products';
+import { productsActions, Product } from '../../../store/products';
 import LoadingSkeleton from '../card/Skeleton';
+import SwipeableTemporaryDrawer from '../cart';
 
 function dummyArr() {
     return Array.from(new Array(6));
@@ -12,6 +13,7 @@ function dummyArr() {
 export default function Main() {
     const products: Product[] = useSelector((state: any) => state.products.products);
     const dispatch = useDispatch();
+    const { getProducts } = productsActions;
 
     useEffect(() => {
         dispatch(getProducts());
