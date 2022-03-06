@@ -4,7 +4,6 @@ import Card from '../card';
 import { useDispatch, useSelector } from 'react-redux';
 import { productsActions, Product } from '../../../store/products';
 import LoadingSkeleton from '../card/Skeleton';
-import SwipeableTemporaryDrawer from '../cart';
 
 function dummyArr() {
     return Array.from(new Array(6));

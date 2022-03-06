@@ -1,33 +1,57 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { parsePrice } from '../lib/parsePrice';
 import { Product } from './products';
 
-interface CartProduct extends Product {
-    countOfProducts: number;
+export interface CartProduct extends Product {
+    rate?: number;
+    countOfProducts?: number;
 }
 
 interface Cart {
-    isOpen: boolean;
     cartProducts: CartProduct[];
-    totalPrice: number;
+    totalPrice: string;
+}
+
+interface addToCartAction {
+    payload: CartProduct;
 }
 
 const initialState: Cart = {
-    isOpen: false,
     cartProducts: [],
-    totalPrice: 0
+    totalPrice: '$0'
 };
+
+function handleTotal(arr: CartProduct[]): string {
+    const newArr: CartProduct[] = JSON.parse(JSON.stringify(arr));
+    const total: number = newArr.reduce(
+        (total: number, item: CartProduct) => item.countOfProducts! * item.price + total,
+        0
+    );
+    return parsePrice(total);
+}
 
 const slice = {
     name: 'cart',
     initialState,
     reducers: {
-        openCart(state: Cart) {
-            state.isOpen = true;
+        addToCart(state: Cart, action: addToCartAction) {
+            const productId: number = action.payload.id;
+            const isFound: boolean = state.cartProducts.some((item: CartProduct) => item.id === productId);
+            if (!isFound) {
+                const newProduct: CartProduct = {
+                    ...action.payload,
+                    rate: Math.round(action.payload.rating.rate * 20),
+                    countOfProducts: 1
+                };
+                state.cartProducts.push(newProduct);
+                state.totalPrice = handleTotal(state.cartProducts);
+                return;
+            }
+            state.cartProducts = state.cartProducts.map((item: CartProduct) =>
+                item.id === productId ? { ...item, countOfProducts: item.countOfProducts! + 1 } : item
+            );
+            state.totalPrice = handleTotal(state.cartProducts);
         },
-        closeCart(state: Cart) {
-            state.isOpen = false;
-        },
-        addToCart() {},
         removeFromCart() {}
     }
 };

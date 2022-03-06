@@ -1,24 +1,25 @@
 import * as React from 'react';
 
 import { styled, alpha } from '@mui/material/styles';
+import Badge, { BadgeProps } from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import logo from '/public/imgs/logo.svg';
-import { useDispatch } from 'react-redux';
-import { cartActions } from '../../../store/cart';
+import { useDispatch, useSelector } from 'react-redux';
+import { menuActions } from '../../../store/menu';
 import { Link } from 'react-router-dom';
+import { CartProduct } from '../../../store/cart';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -60,9 +61,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%'
 }));
 
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: -3,
+        top: 13,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: '0 4px'
+    }
+}));
+
 export default function NavBar() {
+    const carts: CartProduct[] = useSelector((state: any) => state.cart.cartProducts);
     const dispatch = useDispatch();
-    const { openCart } = cartActions;
+    const { openMenu } = menuActions;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -125,11 +136,7 @@ export default function NavBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}>
             <MenuItem>
-                <IconButton size='large' aria-label='show ${item} in Cart' color='inherit'>
-                    <Badge badgeContent={17} color='error'>
-                        <AddShoppingCartIcon />
-                    </Badge>
-                </IconButton>
+                <CartIcon length={carts.length} />
                 <p>Cart</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
@@ -147,7 +154,7 @@ export default function NavBar() {
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, position: 'sticky', top: '0', zIndex: '1000' }}>
             <AppBar position='static'>
                 <Toolbar>
                     <IconButton
@@ -156,7 +163,7 @@ export default function NavBar() {
                         color='inherit'
                         aria-label='open drawer'
                         sx={{ mr: 2 }}
-                        onClick={dispatch.bind(null, openCart())}>
+                        onClick={dispatch.bind(null, openMenu())}>
                         <MenuIcon />
                     </IconButton>
                     <img src={logo} width={100} height='100%' alt='logo' />
@@ -168,13 +175,7 @@ export default function NavBar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Link to='/cart'>
-                            <IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
-                                <Badge badgeContent={17} color='error'>
-                                    <AddShoppingCartIcon />
-                                </Badge>
-                            </IconButton>
-                        </Link>
+                        <CartIcon length={carts.length} />
                         <IconButton
                             size='large'
                             edge='end'
@@ -202,5 +203,21 @@ export default function NavBar() {
             {renderMobileMenu}
             {renderMenu}
         </Box>
+    );
+}
+
+interface CartIconPorps {
+    length: number;
+}
+
+function CartIcon({ length }: CartIconPorps): JSX.Element {
+    return (
+        <Link to='/cart' style={{ color: 'inherit' }}>
+            <IconButton aria-label='cart' size='large' color='inherit'>
+                <StyledBadge badgeContent={length} color='info'>
+                    <ShoppingCartIcon />
+                </StyledBadge>
+            </IconButton>
+        </Link>
     );
 }

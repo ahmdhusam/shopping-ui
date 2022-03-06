@@ -9,6 +9,9 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Product } from '../../../store/products';
 import { Rating } from '@mui/material';
 import { Box } from '@mui/system';
+import { cartActions } from '../../../store/cart';
+import { useDispatch } from 'react-redux';
+import { parsePrice } from '../../../lib/parsePrice';
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -31,6 +34,8 @@ export default function Card(props: Product) {
         price,
         rating: { rate }
     } = props;
+    const dispatch = useDispatch();
+    const { addToCart } = cartActions;
 
     const parsedRate = Math.round(rate * 2) / 2;
 
@@ -58,9 +63,9 @@ export default function Card(props: Product) {
             </CardContent>
             <CardActions sx={{ padding: '1rem', gap: '0.4rem' }}>
                 <Typography variant='h6' component='span'>
-                    ${price}
+                    {parsePrice(price)}
                 </Typography>
-                <Button size='small'>
+                <Button size='small' onClick={dispatch.bind(null, addToCart(props))}>
                     <AddShoppingCartIcon /> <span>add to cart</span>
                 </Button>
                 <Button sx={{ gap: '2px' }} size='small'>
