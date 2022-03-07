@@ -10,9 +10,8 @@ import Checkbox from '@mui/material/Checkbox';
 
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolBar';
-import { useSelector } from 'react-redux';
-import { CartProduct } from '../../../store/cart';
-import { Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions, CartProduct } from '../../../store/cart';
 import CountVisibility from './CountVisibility';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -37,11 +36,28 @@ function getComparator<Key extends keyof any>(
 }
 
 export default function EnhancedTable() {
-    const cartProducts = useSelector((state: any) => state.cart.cartProducts);
+    const { cartProducts, totalPrice } = useSelector((state: any) => state.cart);
+    const dispatch = useDispatch();
+    const { increase, decrease, deleteSelected } = cartActions;
 
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof CartProduct>('category');
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
+    const [selected, setSelected] = React.useState<readonly number[]>([]);
+
+    const handleIncrease = (product: CartProduct, e: Event) => {
+        e.stopPropagation();
+        dispatch(increase(product));
+    };
+
+    const handleDecrease = (product: CartProduct, e: Event) => {
+        e.stopPropagation();
+        dispatch(decrease(product));
+    };
+
+    const handleDeleteSelected = () => {
+        dispatch(deleteSelected(selected.slice()));
+        setSelected([]);
+    };
 
     const handleRequestSort = (_: React.MouseEvent<unknown>, property: keyof CartProduct) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -51,19 +67,19 @@ export default function EnhancedTable() {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const newSelecteds = cartProducts.map((n: CartProduct) => n.title);
+            const newSelecteds = cartProducts.map((n: CartProduct) => n.id);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (_: React.MouseEvent<unknown>, title: string) => {
-        const selectedIndex = selected.indexOf(title);
-        let newSelected: readonly string[] = [];
+    const handleClick = (_: React.MouseEvent<unknown>, id: number) => {
+        const selectedIndex = selected.indexOf(id);
+        let newSelected: readonly number[] = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, title);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -75,12 +91,12 @@ export default function EnhancedTable() {
         setSelected(newSelected);
     };
 
-    const isSelected = (title: string) => selected.indexOf(title) !== -1;
+    const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selected.length} onDeleteSelected={handleDeleteSelected} />
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
                         <EnhancedTableHead
@@ -90,6 +106,7 @@ export default function EnhancedTable() {
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={cartProducts.length}
+                            total={totalPrice}
                         />
                         <TableBody>
                             {!!cartProducts.length ? (
@@ -97,17 +114,17 @@ export default function EnhancedTable() {
                                     .slice()
                                     .sort(getComparator(order, orderBy))
                                     .map((product: CartProduct, index: number) => {
-                                        const isItemSelected = isSelected(product.title);
+                                        const isItemSelected = isSelected(product.id);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => handleClick(event, product.title)}
+                                                onClick={event => handleClick(event, product.id)}
                                                 role='checkbox'
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}
-                                                key={product.title}
+                                                key={product.id}
                                                 selected={isItemSelected}>
                                                 <TableCell padding='checkbox'>
                                                     <Checkbox
@@ -119,17 +136,15 @@ export default function EnhancedTable() {
                                                     />
                                                 </TableCell>
                                                 <TableCell component='th' id={labelId} scope='row' padding='none'>
-                                                    {product.title}
+                                                    {product.title.length > 50
+                                                        ? `${product.title.substr(0, 50)}...`
+                                                        : product.title}
                                                 </TableCell>
                                                 <TableCell align='right'>
                                                     <CountVisibility
                                                         count={product.countOfProducts!}
-                                                        onAdd={(e: Event, _: number) => {
-                                                            e.stopPropagation();
-                                                        }}
-                                                        onRemove={(e: Event, _: number) => {
-                                                            e.stopPropagation();
-                                                        }}
+                                                        onIncrease={handleIncrease.bind(null, product)}
+                                                        onDecrease={handleDecrease.bind(null, product)}
                                                     />
                                                 </TableCell>
                                                 <TableCell align='right'>{product.category}</TableCell>
@@ -139,9 +154,9 @@ export default function EnhancedTable() {
                                         );
                                     })
                             ) : (
-                                <Typography variant='h6' p={2} m={1} pl={3} gutterBottom component='h6'>
-                                    Empty
-                                </Typography>
+                                <TableRow>
+                                    <TableCell>Empty</TableCell>
+                                </TableRow>
                             )}
                         </TableBody>
                     </Table>

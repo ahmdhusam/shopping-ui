@@ -3,7 +3,7 @@ import { AlertColor } from '@mui/material';
 
 export interface NotificationState {
     isOpen: boolean;
-    type: string;
+    type: AlertColor;
     message: string;
 }
 

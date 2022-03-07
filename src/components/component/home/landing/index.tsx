@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from '@mui/material/styles';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -35,7 +34,7 @@ export default function Landing() {
                 modules={[Autoplay, Pagination, Navigation]}>
                 {dummyArr().map((_, index: number) => (
                     <SwiperSlide key={index}>
-                        <Image src={`/public/imgs/slider-images/${index + 1}.jpg`} alt={'img' + index + 1} />
+                        <Image src={`/imgs/slider-images/${index + 1}.jpg`} alt={'img' + (index + 1)} />
                     </SwiperSlide>
                 ))}
             </Swiper>

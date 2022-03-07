@@ -1,7 +1,7 @@
 {
     "name": "amazon-clone",
     "private": true,
-    "version": "0.0.1",
+    "version": "1.0.0",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
@@ -13,20 +13,12 @@
         "@mui/icons-material": "^5.4.4",
         "@mui/material": "^5.4.4",
         "@reduxjs/toolkit": "^1.8.0",
-        "@types/axios": "^0.14.0",
         "axios": "^0.26.0",
-        "formik": "^2.2.9",
-        "lodash": "^4.17.21",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "react-icons": "^4.3.1",
-        "react-modal": "^3.14.4",
         "react-redux": "^7.2.6",
         "react-router-dom": "^6.2.2",
-        "react-toastify": "^8.2.0",
-        "sass": "^1.49.9",
-        "swiper": "^8.0.7",
-        "yup": "^0.32.11"
+        "swiper": "^8.0.7"
     },
     "devDependencies": {
         "@types/react": "^17.0.33",

@@ -7,11 +7,11 @@ import Typography from '@mui/material/Typography';
 
 interface CountVisibilityProps {
     count: number;
-    onAdd: (e: Event, id: number) => void;
-    onRemove: (e: Event, id: number) => void;
+    onIncrease(e: Event): void;
+    onDecrease(e: Event): void;
 }
 
-export default function CountVisibility({ count, onAdd, onRemove }: CountVisibilityProps) {
+export default function CountVisibility({ count, onIncrease, onDecrease }: CountVisibilityProps) {
     return (
         <Box
             sx={{
@@ -27,11 +27,7 @@ export default function CountVisibility({ count, onAdd, onRemove }: CountVisibil
             }}>
             <div>
                 <ButtonGroup>
-                    <Button
-                        aria-label='reduce'
-                        onClick={() => {
-                            onRemove;
-                        }}>
+                    <Button aria-label='decrease' onClick={(e: any) => onDecrease(e)}>
                         <RemoveIcon fontSize='small' />
                     </Button>
                     <Typography
@@ -44,11 +40,7 @@ export default function CountVisibility({ count, onAdd, onRemove }: CountVisibil
                         border={'solid 1px grey'}>
                         {count}
                     </Typography>
-                    <Button
-                        aria-label='increase'
-                        onClick={() => {
-                            onAdd;
-                        }}>
+                    <Button aria-label='increase' onClick={(e: any) => onIncrease(e)}>
                         <AddIcon fontSize='small' />
                     </Button>
                 </ButtonGroup>
