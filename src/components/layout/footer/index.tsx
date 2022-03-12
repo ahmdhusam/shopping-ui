@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { Link } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import GitHub from '@mui/icons-material/github';
-import LinkedIn from '@mui/icons-material/linkedin';
+import GitHub from '@mui/icons-material/GitHub';
+import LinkedIn from '@mui/icons-material/LinkedIn';
 
 const Div = styled('div')(() => ({
     width: '100%',
