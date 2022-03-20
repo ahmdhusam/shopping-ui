@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with Vite React App
 
 This project was bootstrapped with [Yarn Create Vite](https://github.com/vitejs/vite).
 
