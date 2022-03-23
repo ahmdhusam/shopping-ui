@@ -25,3 +25,4 @@ Your app is ready to be deployed!
 ### `yarn run preview`
 
 Runs the app in the production mode.\
+Open [http://localhost:4173](http://localhost:4173) to view it in your browser.
