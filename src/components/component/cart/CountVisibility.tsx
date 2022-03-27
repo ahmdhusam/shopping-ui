@@ -30,15 +30,8 @@ export default function CountVisibility({ count, onIncrease, onDecrease }: Count
                     <Button aria-label='decrease' onClick={(e: any) => onDecrease(e)}>
                         <RemoveIcon fontSize='small' />
                     </Button>
-                    <Typography
-                        variant='h6'
-                        gutterBottom
-                        component='h6'
-                        m={0}
-                        py={0.2}
-                        px={1}
-                        border={'solid 1px grey'}>
-                        {count}
+                    <Typography variant='h6' component='span' py={0.2} px={1} border={'solid 1px grey'}>
+                        {count < 10 ? `0${count}` : count}
                     </Typography>
                     <Button aria-label='increase' onClick={(e: any) => onIncrease(e)}>
                         <AddIcon fontSize='small' />

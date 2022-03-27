@@ -12,6 +12,7 @@ import { Box } from '@mui/system';
 import { cartActions } from '../../../store/cart';
 import { useDispatch } from 'react-redux';
 import { parsePrice } from '../../../lib/parsePrice';
+import { modalActions } from '../../../store/modal';
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -26,16 +27,23 @@ const labels: { [index: string]: string } = {
     5: 'Excellent+'
 };
 
-export default function Card(props: Product) {
+interface CardProps {
+    product: Product;
+    isNotDefault?: boolean;
+}
+
+export default function Card(props: CardProps) {
+    const { product, isNotDefault = false } = props;
     const {
         title,
         image,
         description,
         price,
         rating: { rate }
-    } = props;
+    } = product;
     const dispatch = useDispatch();
     const { addToCart } = cartActions;
+    const { openModal } = modalActions;
 
     const parsedRate = Math.round(rate * 2) / 2;
 
@@ -44,7 +52,7 @@ export default function Card(props: Product) {
             <CardMedia sx={{ objectFit: 'fill' }} component='img' alt={title} height='400' image={image} />
             <CardContent sx={{ flexGrow: '3' }}>
                 <Typography gutterBottom variant='h5' component='div'>
-                    {title.substr(0, 25)}...
+                    {!isNotDefault ? `${title.substr(0, 25)} ...` : title}
                 </Typography>
                 <Typography variant='overline' component='div'>
                     <Box
@@ -58,19 +66,27 @@ export default function Card(props: Product) {
                     </Box>
                 </Typography>
                 <Typography variant='body2' color='text.secondary'>
-                    {description.substr(0, 200)}...
+                    {!isNotDefault ? `${description.substr(0, 200)} ...` : description}
                 </Typography>
             </CardContent>
-            <CardActions sx={{ padding: '1rem', gap: '0.4rem' }}>
+            <CardActions sx={{ padding: '1rem', gap: '0.4rem', justifyContent: 'space-between' }}>
                 <Typography variant='h6' component='span'>
                     {parsePrice(price)}
                 </Typography>
-                <Button size='small' onClick={dispatch.bind(null, addToCart(props))}>
-                    <AddShoppingCartIcon /> <span>add to cart</span>
+                <Button
+                    size='small'
+                    startIcon={<AddShoppingCartIcon />}
+                    onClick={dispatch.bind(null, addToCart(product))}>
+                    add to cart
                 </Button>
-                <Button sx={{ gap: '2px' }} size='small'>
-                    <InfoOutlinedIcon fontSize='small' /> <span>info</span>
-                </Button>
+                {!isNotDefault && (
+                    <Button
+                        size='small'
+                        startIcon={<InfoOutlinedIcon fontSize='small' />}
+                        onClick={dispatch.bind(null, openModal(product))}>
+                        info
+                    </Button>
+                )}
             </CardActions>
         </MainCard>
     );

@@ -8,7 +8,7 @@ export interface CartProduct extends Product {
     countOfProducts?: number;
 }
 
-interface Cart {
+export interface Cart {
     cartProducts: CartProduct[];
     totalPrice: string;
 }

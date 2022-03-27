@@ -24,7 +24,7 @@ export default function Main() {
                     gap: '5rem'
                 }}>
                 {!!products.length
-                    ? products.map((product: Product) => <Card key={product.id} {...product} />)
+                    ? products.map((product: Product) => <Card key={product.id} product={product} />)
                     : dummyArr().map((_, index) => <LoadingSkeleton key={index} />)}
             </Box>
         </Suspense>

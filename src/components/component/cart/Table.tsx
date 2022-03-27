@@ -93,10 +93,21 @@ export default function EnhancedTable() {
 
     const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
+    React.useEffect(() => {
+        const newArr = selected.filter((id: number) =>
+            (cartProducts as CartProduct[]).some((item: CartProduct) => item.id === id)
+        );
+        setSelected(newArr);
+    }, [cartProducts, setSelected]);
+
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} onDeleteSelected={handleDeleteSelected} />
+                <EnhancedTableToolbar
+                    numSelected={selected.length}
+                    onDeleteSelected={handleDeleteSelected}
+                    totalPrice={totalPrice}
+                />
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
                         <EnhancedTableHead
@@ -106,7 +117,6 @@ export default function EnhancedTable() {
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={cartProducts.length}
-                            total={totalPrice}
                         />
                         <TableBody>
                             {!!cartProducts.length ? (

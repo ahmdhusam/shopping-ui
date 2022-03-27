@@ -20,19 +20,19 @@ const headCells: readonly HeadCell[] = [
         id: 'title',
         numeric: false,
         disablePadding: true,
-        label: 'Name'
+        label: 'Name (Aa)'
     },
     {
         id: 'countOfProducts',
         numeric: false,
         disablePadding: false,
-        label: 'Count Of Products (num)'
+        label: 'Count Of Product (00)'
     },
     {
         id: 'category',
         numeric: false,
         disablePadding: false,
-        label: 'Category'
+        label: 'Category (Aa)'
     },
     {
         id: 'price',
@@ -55,21 +55,16 @@ interface EnhancedTableProps {
     order: Order;
     orderBy: string;
     rowCount: number;
-    total: string;
 }
 
 export default function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, total } = props;
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
     const createSortHandler = (property: keyof CartProduct) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
 
     return (
         <TableHead>
-            <TableRow>
-                <TableCell colSpan={5}>Total</TableCell>
-                <TableCell align='right'>{total || '$0.00'}</TableCell>
-            </TableRow>
             <TableRow>
                 <TableCell padding='checkbox'>
                     <Checkbox

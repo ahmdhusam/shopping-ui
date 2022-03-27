@@ -7,12 +7,13 @@ import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import LoadingCircular from './components/layout/progress';
 import { productsActions } from './store/products';
 import { useDispatch } from 'react-redux';
+import Menu from './components/layout/menu';
+import NavBar from './components/layout/navbar';
+import Footer from './components/layout/footer';
+import Notification from './components/layout/Notification';
+import BasicModal from './components/layout/modal';
 
-const NavBar = lazy(() => import('./components/layout/navbar'));
-const Footer = lazy(() => import('./components/layout/footer'));
 const Home = lazy(() => import('./components/pages/Home'));
-const Notification = lazy(() => import('./components/layout/Notification'));
-const Menu = lazy(() => import('./components/layout/menu'));
 const Cart = lazy(() => import('./components/pages/Cart'));
 
 function App(): JSX.Element {
@@ -25,10 +26,11 @@ function App(): JSX.Element {
 
     return (
         <Suspense fallback={<LoadingCircular />}>
+            {createPortal(<BasicModal />, document.getElementById('modal-wrapper')! as HTMLDivElement)}
             {createPortal(<Menu />, document.getElementById('menu-wrapper')! as HTMLDivElement)}
             {createPortal(<Notification />, document.getElementById('notification-wrapper')! as HTMLDivElement)}
             <NavBar />
-            <div style={{ minHeight: '80vh' }}>
+            <div style={{ minHeight: '85vh' }}>
                 <Routes>
                     <Route path='/' element={<Navigate to='/home' replace={true} />} />
                     <Route path='/home' element={<Home />} />
