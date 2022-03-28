@@ -9,7 +9,6 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    // width: 400,
     bgcolor: 'lightgrey',
     border: '2px solid #000',
     boxShadow: 24,
@@ -20,8 +19,6 @@ export default function BasicModal() {
     const { isOpen, product } = useSelector((state: any) => state.modal);
     const dispatch = useDispatch();
     const { closeModal } = modalActions;
-    //   const handleOpen = () => setOpen(true);
-    //   const handleClose = () => setOpen(false);
 
     return (
         <div>
