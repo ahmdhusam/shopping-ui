@@ -1,11 +1,14 @@
+// MUI components
 import { styled } from '@mui/material/styles';
 
+// swiper package
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Navigation, Pagination, Autoplay } from 'swiper';
 
 const Image = styled('img')(() => ({
     objectFit: 'cover',

@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+// MUI Components
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,11 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 
+// custom components
 import EnhancedTableHead from './TableHead';
 import EnhancedTableToolbar from './TableToolBar';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartActions, CartProduct } from '../../../store/cart';
 import CountVisibility from './CountVisibility';
+
+// global state
+import { cartActions, CartProduct } from '../../../store/cart';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -26,7 +31,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 export type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof any>(
+function getComparator<Key extends keyof CartProduct>(
     order: Order,
     orderBy: Key
 ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
@@ -44,12 +49,12 @@ export default function EnhancedTable() {
     const [orderBy, setOrderBy] = React.useState<keyof CartProduct>('category');
     const [selected, setSelected] = React.useState<readonly number[]>([]);
 
-    const handleIncrease = (product: CartProduct, e: Event) => {
+    const handleIncrease = (product: CartProduct, e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(increase(product));
     };
 
-    const handleDecrease = (product: CartProduct, e: Event) => {
+    const handleDecrease = (product: CartProduct, e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(decrease(product));
     };
@@ -97,6 +102,11 @@ export default function EnhancedTable() {
         const newArr = selected.filter((id: number) =>
             (cartProducts as CartProduct[]).some((item: CartProduct) => item.id === id)
         );
+
+        if (newArr.length === selected.length) {
+            return;
+        }
+
         setSelected(newArr);
     }, [cartProducts, setSelected]);
 

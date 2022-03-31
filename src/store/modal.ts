@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { Product } from './products';
 
-interface Modal {
+export interface Modal {
     isOpen: boolean;
     product: Product | null;
 }
@@ -31,6 +32,6 @@ const slice = {
 };
 
 const modalSlice = createSlice(slice);
-export default modalSlice;
+export default modalSlice.reducer;
 
 export const modalActions = modalSlice.actions;

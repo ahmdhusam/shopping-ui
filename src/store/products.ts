@@ -3,9 +3,8 @@ import STORE_API from '../lib/axios';
 
 import { notificationActions, ActionPayload } from './notification';
 
-interface Rating {
-    count: number;
-    rate: number;
+export interface Products {
+    products: Product[];
 }
 
 export interface Product {
@@ -18,8 +17,9 @@ export interface Product {
     rating: Rating;
 }
 
-export interface Products {
-    products: Product[];
+interface Rating {
+    count: number;
+    rate: number;
 }
 
 const initialState: Products = {
@@ -37,7 +37,7 @@ const slice = {
 };
 
 const productsSlice = createSlice(slice);
-export default productsSlice;
+export default productsSlice.reducer;
 
 const getProducts = () => {
     return async (dispatch: any) => {

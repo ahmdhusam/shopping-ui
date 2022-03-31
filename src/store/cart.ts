@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { parsePrice } from '../lib/parsePrice';
+
 import { ActionPayload, notificationActions } from './notification';
 import { Product } from './products';
-
-export interface CartProduct extends Product {
-    rate?: number;
-    countOfProducts?: number;
-}
 
 export interface Cart {
     cartProducts: CartProduct[];
     totalPrice: string;
+}
+
+export interface CartProduct extends Product {
+    rate?: number;
+    countOfProducts?: number;
 }
 
 interface CartAction {
@@ -49,7 +51,7 @@ const slice = {
             const productId = action.payload.id;
             const index = state.cartProducts.findIndex((item: CartProduct) => item.id === productId);
             if (state.cartProducts[index].countOfProducts! > 9) {
-                throw new Error("You Can't Have More Then Ten");
+                throw new Error("Sorry, You've Reached Maximum");
             }
 
             state.cartProducts[index].countOfProducts! += 1;
@@ -81,7 +83,7 @@ const slice = {
     }
 };
 const cartSlice = createSlice(slice);
-export default cartSlice;
+export default cartSlice.reducer;
 
 function addToCart(product: Product) {
     return (dispatch: any, globalState: any) => {

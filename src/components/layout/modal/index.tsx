@@ -1,8 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+// MUI components
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+
+// custom component
 import Card from '../card';
-import { useDispatch, useSelector } from 'react-redux';
+
+// global state
 import { modalActions } from '../../../store/modal';
+import { GlobalState } from '../../../store/store';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -16,7 +23,7 @@ const style = {
 };
 
 export default function BasicModal() {
-    const { isOpen, product } = useSelector((state: any) => state.modal);
+    const { isOpen, product } = useSelector((state: GlobalState) => state.modal);
     const dispatch = useDispatch();
     const { closeModal } = modalActions;
 
@@ -28,7 +35,7 @@ export default function BasicModal() {
                 aria-labelledby='modal-modal-title'
                 aria-describedby='modal-modal-description'>
                 <Box sx={style}>
-                    <Card product={product} isNotDefault />
+                    <Card product={product!} isNotDefault />
                 </Box>
             </Modal>
         </div>

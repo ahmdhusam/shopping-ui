@@ -1,3 +1,6 @@
+import { useDispatch } from 'react-redux';
+
+// MUI components
 import MainCard from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -6,13 +9,16 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Product } from '../../../store/products';
 import { Rating } from '@mui/material';
 import { Box } from '@mui/system';
+
+// global state
+import { Product } from '../../../store/products';
 import { cartActions } from '../../../store/cart';
-import { useDispatch } from 'react-redux';
-import { parsePrice } from '../../../lib/parsePrice';
 import { modalActions } from '../../../store/modal';
+
+// lib
+import { parsePrice } from '../../../lib/parsePrice';
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',

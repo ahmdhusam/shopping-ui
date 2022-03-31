@@ -1,11 +1,16 @@
+// MUI components
 import { visuallyHidden } from '@mui/utils';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import TableHead from '@mui/material/TableHead';
-import { Order } from './Table';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
+
+// custom component
+import { Order } from './Table';
+
+// global state
 import { CartProduct } from '../../../store/cart';
 
 interface HeadCell {

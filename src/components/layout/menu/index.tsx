@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+// MUI components
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -11,10 +11,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Typography } from '@mui/material';
-
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
 
+// global state
 import { menuActions } from '../../../store/menu';
 
 export default function Cart() {

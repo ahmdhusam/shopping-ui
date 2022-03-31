@@ -1,17 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cartSlice from './cart';
-import menuSlice from './menu';
-import modal from './modal';
 
-import notificationSlice from './notification';
-import productsSlice from './products';
+import productsSlice, { Products } from './products';
+import cartSlice, { Cart } from './cart';
+import notificationSlice, { Notification } from './notification';
+import menuSlice, { Menu } from './menu';
+import modal, { Modal } from './modal';
+
+export interface GlobalState {
+    products: Products;
+    notification: Notification;
+    cart: Cart;
+    menu: Menu;
+    modal: Modal;
+}
 
 const reducer = {
-    products: productsSlice.reducer,
-    notification: notificationSlice.reducer,
-    cart: cartSlice.reducer,
-    menu: menuSlice.reducer,
-    modal: modal.reducer
+    products: productsSlice,
+    cart: cartSlice,
+    notification: notificationSlice,
+    menu: menuSlice,
+    modal: modal
 };
 
 const store = configureStore({

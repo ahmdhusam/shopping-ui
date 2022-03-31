@@ -1,11 +1,17 @@
 import { lazy, Suspense } from 'react';
-import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { Product } from '../../../store/products';
+
+// MUI components
+import { Box } from '@mui/material';
+
+// custom components
 import LoadingSkeleton from '../../layout/card/Skeleton';
 import LoadingCircular from '../../layout/progress';
 
 const Card = lazy(() => import('../../layout/card'));
+
+// global state
+import { Product } from '../../../store/products';
 
 function dummyArr() {
     return Array.from(new Array(6));

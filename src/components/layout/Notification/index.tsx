@@ -1,17 +1,21 @@
 import { forwardRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+// MUI components
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { notificationActions, NotificationState } from '../../../store/notification';
+// global state
+import { GlobalState } from '../../../store/store';
+import { notificationActions } from '../../../store/notification';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
 
 export default function Notification() {
-    const { isOpen, type, message }: NotificationState = useSelector((state: any) => state.notification);
+    const { isOpen, type, message } = useSelector((state: GlobalState) => state.notification);
     const dispatch = useDispatch();
     const { close } = notificationActions;
 

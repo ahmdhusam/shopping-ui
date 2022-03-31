@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+// MUI components
 import { styled, alpha } from '@mui/material/styles';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import AppBar from '@mui/material/AppBar';
@@ -15,11 +18,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-import logo from '/public/imgs/logo.svg';
-import { useDispatch, useSelector } from 'react-redux';
+// global state
 import { menuActions } from '../../../store/menu';
-import { Link } from 'react-router-dom';
 import { CartProduct } from '../../../store/cart';
+import { GlobalState } from '../../../store/store';
+
+// logo
+import logo from '/public/imgs/logo.svg';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -71,7 +76,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 export default function NavBar() {
-    const carts: CartProduct[] = useSelector((state: any) => state.cart.cartProducts);
+    const carts: CartProduct[] = useSelector((state: GlobalState) => state.cart.cartProducts);
     const dispatch = useDispatch();
     const { openMenu } = menuActions;
 

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface Menu {
+export interface Menu {
     isOpen: boolean;
 }
 
@@ -21,6 +21,6 @@ const slice = {
     }
 };
 const menuSlice = createSlice(slice);
-export default menuSlice;
+export default menuSlice.reducer;
 
 export const menuActions = menuSlice.actions;

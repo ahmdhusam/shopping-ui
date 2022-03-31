@@ -1,3 +1,6 @@
+import * as React from 'react';
+
+// MUI Components
 import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
@@ -7,8 +10,8 @@ import Typography from '@mui/material/Typography';
 
 interface CountVisibilityProps {
     count: number;
-    onIncrease(e: Event): void;
-    onDecrease(e: Event): void;
+    onIncrease(e: React.MouseEvent): void;
+    onDecrease(e: React.MouseEvent): void;
 }
 
 export default function CountVisibility({ count, onIncrease, onDecrease }: CountVisibilityProps) {
@@ -27,13 +30,13 @@ export default function CountVisibility({ count, onIncrease, onDecrease }: Count
             }}>
             <div>
                 <ButtonGroup>
-                    <Button aria-label='decrease' onClick={(e: any) => onDecrease(e)}>
+                    <Button aria-label='decrease' onClick={onDecrease}>
                         <RemoveIcon fontSize='small' />
                     </Button>
                     <Typography variant='h6' component='span' py={0.2} px={1} border={'solid 1px grey'}>
                         {count < 10 ? `0${count}` : count}
                     </Typography>
-                    <Button aria-label='increase' onClick={(e: any) => onIncrease(e)}>
+                    <Button aria-label='increase' onClick={onIncrease}>
                         <AddIcon fontSize='small' />
                     </Button>
                 </ButtonGroup>
