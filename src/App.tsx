@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
-import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // custom components
 import NavBar from './components/layout/navbar';
