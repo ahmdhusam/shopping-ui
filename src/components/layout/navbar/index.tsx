@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // MUI components
 import { styled, alpha } from '@mui/material/styles';
@@ -76,8 +76,11 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 }));
 
 export default function NavBar() {
-    const carts: CartProduct[] = useSelector((state: GlobalState) => state.cart.cartProducts);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const carts: CartProduct[] = useSelector((state: GlobalState) => state.cart.cartProducts);
     const { openMenu } = menuActions;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -101,6 +104,17 @@ export default function NavBar() {
 
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
+    };
+
+    const changeSearchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { state } = location;
+        let comeFrom: string = location.pathname;
+
+        if (comeFrom === '/search' && typeof state === 'string') {
+            comeFrom = state;
+        }
+
+        navigate(`/search?for=${e.target.value}`, { replace: true, state: comeFrom });
     };
 
     const menuId = 'primary-search-account-menu';
@@ -172,7 +186,7 @@ export default function NavBar() {
                         <MenuIcon />
                     </IconButton>
                     <img src={logo} width={100} height='100%' alt='logo' />
-                    <Search sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Search sx={{ display: { xs: 'none', sm: 'block' } }} onChange={changeSearchHandler}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>

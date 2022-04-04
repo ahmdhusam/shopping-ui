@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
 
 // MUI components
 import { Box } from '@mui/material';
@@ -13,13 +12,15 @@ const Card = lazy(() => import('../../layout/card'));
 // global state
 import { Product } from '../../../store/products';
 
+interface MainProps {
+    products: Product[];
+}
+
 function dummyArr() {
     return Array.from(new Array(6));
 }
 
-export default function Main() {
-    const products: Product[] = useSelector((state: any) => state.products.products);
-
+export default function Main({ products }: MainProps) {
     return (
         <Suspense fallback={<LoadingCircular />}>
             <Box

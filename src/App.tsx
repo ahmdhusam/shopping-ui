@@ -13,10 +13,11 @@ import LoadingCircular from './components/layout/progress';
 
 const Home = lazy(() => import('./components/pages/Home'));
 const Cart = lazy(() => import('./components/pages/Cart'));
+const Search = lazy(() => import('./components/pages/Search'));
+const NotFound = lazy(() => import('./404'));
 
 // global state
 import { productsActions } from './store/products';
-import NotFound from './404';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App(): JSX.Element {
                     <Route path='/' element={<Navigate to='/home' replace={true} />} />
                     <Route path='/home' element={<Home />} />
                     <Route path='/cart' element={<Cart />} />
+                    <Route path='/search' element={<Search />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </div>
