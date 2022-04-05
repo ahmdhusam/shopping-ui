@@ -10,10 +10,10 @@ import Menu from './components/layout/menu';
 import BasicModal from './components/layout/modal';
 import Notification from './components/layout/Notification';
 import LoadingCircular from './components/layout/progress';
+import Search from './components/pages/Search';
 
 const Home = lazy(() => import('./components/pages/Home'));
 const Cart = lazy(() => import('./components/pages/Cart'));
-const Search = lazy(() => import('./components/pages/Search'));
 const NotFound = lazy(() => import('./404'));
 
 // global state
