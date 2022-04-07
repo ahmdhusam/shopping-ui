@@ -109,12 +109,14 @@ export default function NavBar() {
     const changeSearchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { state } = location;
         let comeFrom: string = location.pathname;
+        let replace: boolean = false;
 
         if (comeFrom === '/search' && typeof state === 'string') {
             comeFrom = state;
+            replace = true;
         }
 
-        navigate(`/search?for=${e.target.value}`, { replace: true, state: comeFrom });
+        navigate(`/search?for=${e.target.value}`, { replace, state: comeFrom });
     };
 
     const menuId = 'primary-search-account-menu';
