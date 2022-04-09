@@ -37,7 +37,7 @@ export default function Landing() {
                 modules={[Autoplay, Pagination, Navigation]}>
                 {dummyArr().map((_, index: number) => (
                     <SwiperSlide key={index}>
-                        <Image src={`/imgs/slider-images/${index + 1}.jpg`} alt={'img' + (index + 1)} />
+                        <Image src={`/imgs/slider-images/${index + 1}.jpg`} alt={'img' + (index + 1)} loading='lazy' />
                     </SwiperSlide>
                 ))}
             </Swiper>

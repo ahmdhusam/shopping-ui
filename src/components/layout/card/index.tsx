@@ -56,7 +56,14 @@ export default function Card(props: CardProps) {
     return (
         <MainCard sx={{ maxWidth: 345, display: 'flex', flexDirection: 'column' }}>
             {!isNotDefault && (
-                <CardMedia sx={{ objectFit: 'fill' }} component='img' alt={title} height='400' image={image} />
+                <CardMedia
+                    sx={{ objectFit: 'fill' }}
+                    component='img'
+                    alt={title}
+                    height='400'
+                    image={image}
+                    loading='lazy'
+                />
             )}
             <CardContent sx={{ flexGrow: '3' }}>
                 <Typography gutterBottom variant='h5' component='div'>
