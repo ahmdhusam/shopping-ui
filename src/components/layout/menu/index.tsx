@@ -17,7 +17,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
 // global state
 import { menuActions } from '../../../store/menu';
 
-export default function Cart() {
+export default function Menu() {
     const { isOpen } = useSelector((state: any) => state.menu);
     const dispatch = useDispatch();
     const { openMenu, closeMenu } = menuActions;
