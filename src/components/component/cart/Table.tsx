@@ -162,7 +162,7 @@ export default function EnhancedTable() {
                                                 </TableCell>
                                                 <TableCell align='right'>
                                                     <CountVisibility
-                                                        count={product.countOfProducts!}
+                                                        count={product.quantity!}
                                                         onIncrease={handleIncrease.bind(null, product)}
                                                         onDecrease={handleDecrease.bind(null, product)}
                                                     />

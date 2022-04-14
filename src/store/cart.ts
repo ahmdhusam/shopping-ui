@@ -12,7 +12,7 @@ export interface Cart {
 
 export interface CartProduct extends Product {
     rate?: number;
-    countOfProducts?: number;
+    quantity?: number;
 }
 
 interface CartAction {
@@ -27,7 +27,7 @@ const initialState: Cart = {
 function handleTotal(arr: CartProduct[]): string {
     const newArr: CartProduct[] = JSON.parse(JSON.stringify(arr));
     const total: number = newArr.reduce(
-        (total: number, item: CartProduct) => item.countOfProducts! * item.price + total,
+        (total: number, item: CartProduct) => item.quantity! * item.price + total,
         0
     );
     return parsePrice(total);
@@ -41,7 +41,7 @@ const slice = {
             const newProduct: CartProduct = {
                 ...action.payload,
                 rate: Math.round(action.payload.rating.rate * 20),
-                countOfProducts: 1
+                quantity: 1
             };
 
             state.cartProducts.push(newProduct);
@@ -50,24 +50,24 @@ const slice = {
         increaseSlice(state: Cart, action: CartAction) {
             const productId = action.payload.id;
             const index = state.cartProducts.findIndex((item: CartProduct) => item.id === productId);
-            if (state.cartProducts[index].countOfProducts! > 9) {
+            if (state.cartProducts[index].quantity! > 9) {
                 throw new Error("Sorry, You've Reached Maximum");
             }
 
-            state.cartProducts[index].countOfProducts! += 1;
+            state.cartProducts[index].quantity! += 1;
             state.totalPrice = handleTotal(state.cartProducts);
         },
         decrease(state: Cart, action: CartAction) {
             const productId = action.payload.id;
 
-            if (action.payload.countOfProducts! === 1) {
+            if (action.payload.quantity! === 1) {
                 state.cartProducts = state.cartProducts.filter((item: CartProduct) => item.id !== productId);
                 state.totalPrice = handleTotal(state.cartProducts);
                 return;
             }
 
             const index = state.cartProducts.findIndex((item: CartProduct) => item.id === productId);
-            state.cartProducts[index].countOfProducts! -= 1;
+            state.cartProducts[index].quantity! -= 1;
             state.totalPrice = handleTotal(state.cartProducts);
         },
         deleteSelected(state: Cart, action: { payload: number[] }) {

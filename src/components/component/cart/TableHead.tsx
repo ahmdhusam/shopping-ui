@@ -28,10 +28,10 @@ const headCells: readonly HeadCell[] = [
         label: 'Name (Aa)'
     },
     {
-        id: 'countOfProducts',
+        id: 'quantity',
         numeric: false,
         disablePadding: false,
-        label: 'Count Of Product (00)'
+        label: 'Quantity (00)'
     },
     {
         id: 'category',
